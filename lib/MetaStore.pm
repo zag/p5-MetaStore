@@ -1,0 +1,184 @@
+package MetaStore;
+use Objects::Collection;
+use Objects::Collection::Base;
+use Data::Dumper;
+
+use Data::UUID;
+use strict;
+use warnings;
+
+our @ISA = qw(Objects::Collection);
+our $VERSION = '0.07';
+
+attributes qw/  props meta links _sub_ref/;
+
+sub _init {
+    my $self = shift;
+    my %args = @_;
+    props $self $args{props};
+    meta $self $args{meta};
+    links $self $args{links};
+    $self->_sub_ref($args{sub_ref}) if ref $args{sub_ref};
+    return 1
+}
+
+sub sub_ref {
+    my $self = shift;
+    if ( my $val = shift ) {
+        $self->_sub_ref($val)
+     }
+    return $self->_sub_ref()
+}
+
+sub _fetch {
+    my $self = shift;
+    my $props_hash_ref = $self->props->fetch_objects(@_);
+    my @ids = keys %$props_hash_ref;
+    my $meta_ref = $self->meta;
+    my $links_ref = $self->links;
+    my $meta_hash_ref = { map { $_=>$meta_ref->get_lazy_object($_) } @ids};
+    my $links_hash_ref = { map { $_=>$links_ref->get_lazy_object($_) } @ids};
+    my %res;
+    foreach my $id ( @ids ) {
+        $res{$id}= { 
+            props=>$props_hash_ref->{$id},
+            meta=>$meta_hash_ref->{$id},
+            links=>$links_hash_ref->{$id},
+            }
+    }
+    return \%res;
+}
+
+sub _prepare_record {
+    my ( $self, $key, $ref ) = @_;
+    if ( ref($self->_sub_ref) eq 'CODE') {
+        return $self->_sub_ref()->($key,$ref)
+    } esle {
+        LOG $self "Not defined sub_ref"
+    }
+    return $ref;
+}
+
+sub _delete {
+    my $self = shift;
+    if ( my $ref = $self->fetch_objects(@_) ){ 
+        $_->delete  for values %{ $ref };
+    }
+    $self->props->delete_objects(@_) ;
+    $self->meta->delete_objects(@_) ;
+
+}
+sub create_obj {
+  my $self = shift;
+  my ($id,$props) = @_;
+  return unless my $class = $props->{__class};
+  $self->props->_query_dbh('SELECT 0');
+  my $meta_ref = $self->meta->get_lazy_object($id);
+  $self->props->_query_dbh('SELECT 10');
+  my $code = qq! new $class\:\: \$props,\$id,\$meta_ref; !;
+  my $ret = eval $code;
+  die ref($self)." die !".$@ if $@;
+  return $ret;
+}
+
+sub fetch_by_guid {
+    my $self = shift;
+    my $guid = shift;
+    my ( $res ) = values %{ $self->fetch_objects({ 'tval'=>$guid}) };
+    return $res;
+}
+
+sub create_object {
+    my $self = shift;
+    my %arg = @_;
+    my $class = $arg{class};
+    my ($meta_obj_id) = keys %{ $self->meta->create(mdata=>'') };
+    $self->props->create($meta_obj_id=>{__class=>$class});
+    my $dummy = $self->fetch_object($meta_obj_id);
+    $dummy->_attr->{guid} = $arg{guid}||$self->make_uuid;
+    return $self->fetch_object($meta_obj_id);
+#    print Dumper({$meta_obj_id=>$dummy});
+#    return $dummy;
+}
+sub _fetch_all {
+    my $self = shift;
+    return $self->fetch_objects( @{ $self->_fetch_all_ids })
+}
+sub _fetch_all_ids {
+    my $self = shift;
+    my $all = $self->meta->_fetch_all;
+    $all = [ keys %{$all} ] if ref($all) eq 'HASH';
+    return $all
+}
+sub create_item {
+    my $self = shift;
+    my %arg = @_;
+    my $class = $arg{class};
+    my ($meta_obj_id) = keys %{ $self->meta->create(mdata=>'') };
+    my ( $dummy ) = values %{ $self->props->create($meta_obj_id,$class) || {}};
+    return $dummy;
+}
+
+sub commit {
+    my $self = shift;
+    map {
+        $_->store_changed;
+        $_->release_objects;
+        }
+     ( $self->props, $self->meta, $self->links) 
+}
+ 
+sub make_uuid {
+    my $self = shift;
+    my $ug =  new Data::UUID::;
+    return $ug->to_string( $ug->create() )
+}
+# Preloaded methods go here.
+
+1;
+__END__
+# Below is stub documentation for your module. You'd better edit it!
+
+=head1 NAME
+
+MetaStore - Perl extension for blah blah blah
+
+=head1 SYNOPSIS
+
+  use MetaStore;
+  blah blah blah
+
+=head1 DESCRIPTION
+
+Stub documentation for MetaStore, created by h2xs. It looks like the
+author of the extension was negligent enough to leave the stub
+unedited.
+
+Blah blah blah.
+
+
+=head1 SEE ALSO
+
+Mention other useful documentation such as the documentation of
+related modules or operating system documentation (such as man pages
+in UNIX), or any relevant external documentation such as RFCs or
+standards.
+
+If you have a mailing list set up for your module, mention it here.
+
+If you have a web site set up for your module, mention it here.
+
+=head1 AUTHOR
+
+Zagatski Alexandr, E<lt>zag@zagE<gt>
+
+=head1 COPYRIGHT AND LICENSE
+
+Copyright (C) 2006 by Zagatski Alexandr
+
+This library is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself, either Perl version 5.8.7 or,
+at your option, any later version of Perl 5 you may have available.
+
+
+=cut
