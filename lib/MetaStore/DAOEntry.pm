@@ -51,7 +51,8 @@ sub links {
 sub parse_TT {
     my $self = shift;
     my ( $template, $predefined ) = @_;
-    $template = '/home/zag/Work/projects/ZagSite/contrib/www/'. $template;
+    my $conf = $self->getEngine->config;
+    $template = $conf->get_full_path($conf->general->{template_dir}, $template );
     my $template_obj = new Template
       INTERPOLATE => 1,
       EVAL_PERL   => 1,
