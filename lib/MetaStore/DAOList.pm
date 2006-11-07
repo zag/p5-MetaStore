@@ -27,7 +27,6 @@ sub init {
     my $self = shift;
     $self->SUPER::init(@_);
     my %arg =  @_;
-#    _log1 $self Dumper(\%arg);
     my %class_prefs = 
     map { 
         my ($key,$key2) = split /\./;
@@ -42,8 +41,11 @@ sub init {
         'metameta',
         '127.0.0.1',
         'root',
-        'zreboot36'
+        'zreboot37'
         );
+  _log1 $self Dumper($self->getEngine->_conf->db);
+      my ($database,$host,$user,$password
+        ) = @{$self->getEngine->_conf->db}{qw/database host user password/};
   my $DSN = "mysql:database=$database;host=$host;";
   my $dbh = DBI->connect("DBI:$DSN",$user,$password,{
   RaiseError => 0, PrintError => 1, AutoCommit => 0 } 
