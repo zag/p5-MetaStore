@@ -36,14 +36,6 @@ sub init {
     if (ref (my $collection =  $arg{collection}) ) {
       __meta_coll $self $collection
     } else {
-    my ($database,$host,$user,$password
-        ) = ( 
-        'metameta',
-        '127.0.0.1',
-        'root',
-        'zreboot37'
-        );
-  _log1 $self Dumper($self->getEngine->_conf->db);
       my ($database,$host,$user,$password
         ) = @{$self->getEngine->_conf->db}{qw/database host user password/};
   my $DSN = "mysql:database=$database;host=$host;";
@@ -102,7 +94,8 @@ sub collections {
 sub _create_obj {
     my $self = shift;
     my ( $id,$ref_attr ) = @_;
-    my $store = new MetaStore::StoreDir:: ($self->_config->{store_root}||'/tmp/Meta2/');
+    my $conf = $self->getEngine->config;
+    my $store = new MetaStore::StoreDir:: ($conf->general->{store_dir}||'/tmp/Meta2/');
     my $attr = $ref_attr->{props};
     my $class = $attr->{__class};
     my $addit = $self->_config->{$attr->{__class}}  || {};

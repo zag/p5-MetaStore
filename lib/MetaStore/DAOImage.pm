@@ -29,6 +29,7 @@ sub set_attr {
     mkpath("/tmp/Meta/$id/");
     foreach my $ref ( $file, $preview ) {
         logmsgs $self '$id' . $id . "filepath /tmp/Meta/$id/" . $ref->[0];
+#        my $file_path  = $self->getEngine->_conf->
         open FH, ">/tmp/Meta/$id/" . $ref->[0] or die $!;
         { local $/; $/ = undef; print FH $ref->[1] };
         close FH;
