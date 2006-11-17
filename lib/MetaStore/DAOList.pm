@@ -1,6 +1,5 @@
 package MetaStore::DAOList;
 use HTML::WebDAO;
-use HTML::WebDAO::Comp::Label;
 use HTML::WebDAO::Component;
 use Objects::Collection::Item;
 use MetaStore::Cmetatags;
