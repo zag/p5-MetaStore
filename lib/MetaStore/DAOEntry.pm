@@ -1,6 +1,5 @@
 package MetaStore::DAOEntry;
 use HTML::WebDAO;
-use HTML::WebDAO::Comp::Label;
 use HTML::WebDAO::Component;
 use Template;
 use Objects::Collection::Item;
