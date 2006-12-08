@@ -8,9 +8,9 @@ use strict;
 use warnings;
 
 our @ISA = qw(Objects::Collection);
-our $VERSION = '0.10';
+our $VERSION = '0.20';
 
-attributes qw/  props meta links _sub_ref/;
+attributes qw/ props meta links _sub_ref/;
 
 sub _init {
     my $self = shift;

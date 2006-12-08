@@ -1,116 +1,88 @@
 package MetaStore::Auth;
-use Data::Dumper;
-use File::Path;
+
 use strict;
 use warnings;
-use HTML::WebDAO::Base;
-use base qw(HTML::WebDAO::Component);
-attributes qw( __metadb );
+use Data::Dumper;
+use base 'MetaStore::Base';
+our $VERSION = '0.01';
+__PACKAGE__->attributes qw(  current_user _users);
+
 sub init {
     my $self = shift;
-#    my %args = map {%{$_}} @_;
-    __metadb $self shift (@_);
+    my %opt  = @_;
+    my ( $users, $sess, ) =
+      @opt{qw/ users session  /};
+    my $sess_id = $sess->get_id;
+    $self->_users($users);
+    $self->current_user( $users->get_by_sess($sess_id) || $users->get_guest );
+    return 1;
 }
 
-sub form {
-    my $self= shift;
-    my @form = $self->PrepareForm(
-     "<strong>name:</strong>",
-     {type=>"input",name=>'usr',value=>"",size=>30},
-     "<br/><strong>pass:</strong>",
-     '<input type="password" name="pw"/>',
-     '<input value="Set" type="submit" />'
-        );
-    return $self->CompileForm({data=>\@form, sendto=>$self->url_method('login')});
+=head1 is_access
 
+
+
+sub is_access {
+    my $self     = shift;
+    my $mod_name = shift || return undef;
+    my $reg      = $self->_conf->{auth_for};
+    nnreturn 1 unless $mod_name =~ m/$reg/i;
+    my $a_id = $self->current_user->attr->{access_id};
+    my $hash = $self->_access_obj->fetch_object($a_id);
+    my $res  = exists $hash->{$mod_name};
+    _log4 $self "CHECK PERM for module $mod_name for user "
+      . $self->current_user
+      . " is $res";
+    return $res;
 }
-sub suss {
-    return $_[0];
-}
-sub get_base {
+
+=cut
+
+=head1 auth_by_login_pass
+
+=cut
+
+sub auth_by_login_pass {
     my $self = shift;
     my %args = @_;
-    my ($login,$pass) =  @args{qw/usr pw/};
-#    return "TEST";
-    return $self->GetURL();
-}
-sub login {
-    my $self =shift;
-    my %args = @_;
-    my ($login,$pass) =  @args{qw/usr pw/};
-    my $sess;
-    $self->SendEvent("_sess_servise",{
-		funct 	=> 'getsess',
-		par	=> {},
-		result	=> \$sess
-			});
-
-    my $uid = $sess->get_id;
-    my $meta_obj = $self->call_path($self->__metadb);
-    my ($user) = 
-#          map { $_->sess_id eq "$uid"}
-          grep { $_->_attr->{_login} eq $login and $_->_attr->{_pass} eq $pass }
-          values %{ $meta_obj->fetch_objects({
-                 tval=>'_metastore_user',
-                 tname=>'__class'}) };
-    _log1 $self "Not found user for $uid \$login,\$pass $login,$pass" unless $user;
-    if ($user)  {
-        _log4 $self "set for user :".$user->_attr->{sess_id}."->$uid";
-        $user->_attr->{sess_id}=$uid;
-        return $self->GetURL() if $args{get_base};
-    }
-    my $redirect_url = $self->url_method("suss");
-    return "fail" if $args{get_base};
-#    return $self->GetURL() if $args{get_base};
-    return {header=>"Location: $redirect_url\n\n",data=>'refersh'};
+    my ( $login, $pass, $sess_obj ) = @args{qw/  usr pass session/};
+    my $user = $self->_users->get_by_log_pass( lg => $login, pw => $pass )
+      || return;
+    $user->attr->{sess_id} = $sess_obj->get_id;
+    return $user;
 }
 
-# Preloaded methods go here.
+=head1 is_authed
 
+=cut
+
+sub is_authed {
+    my $self = shift;
+    my $user = shift || $self->current_user;
+    return not $user->isa('MetaStore::Auth::UserGuest');
+}
+
+=head1 logout
+
+=cut
+
+sub logout {
+    my $self = shift;
+    my $user = shift || $self->current_user || return;
+    $user->attr->{sess_id} = '';
+    return 1;
+}
+
+sub commit {
+    my $self = shift;
+    $self->_users->store_changed;
+}
 1;
 __END__
-# Below is stub documentation for your module. You'd better edit it!
-
-=head1 NAME
-
-MetaStore - Perl extension for blah blah blah
-
-=head1 SYNOPSIS
-
-  use MetaStore;
-  blah blah blah
-
-=head1 DESCRIPTION
-
-Stub documentation for MetaStore, created by h2xs. It looks like the
-author of the extension was negligent enough to leave the stub
-unedited.
-
-Blah blah blah.
-
-
-=head1 SEE ALSO
-
-Mention other useful documentation such as the documentation of
-related modules or operating system documentation (such as man pages
-in UNIX), or any relevant external documentation such as RFCs or
-standards.
-
-If you have a mailing list set up for your module, mention it here.
-
-If you have a web site set up for your module, mention it here.
 
 =head1 AUTHOR
 
-Zagatski Alexandr, E<lt>zag@zagE<gt>
-
-=head1 COPYRIGHT AND LICENSE
-
-Copyright (C) 2006 by Zagatski Alexandr
-
-This library is free software; you can redistribute it and/or modify
-it under the same terms as Perl itself, either Perl version 5.8.7 or,
-at your option, any later version of Perl 5 you may have available.
-
+Zahatski Aliaksandr, E<lt>zag@cpan.orgE<gt>
 
 =cut
+

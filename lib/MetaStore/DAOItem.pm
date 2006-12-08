@@ -1,47 +1,20 @@
-package MetaStore::Main;
-use HTML::WebDAO::Base;
+package MetaStore::DAOItem;
 use Data::Dumper;
 use strict;
 use warnings;
-use base qw(HTML::WebDAO::Component);
-attributes qw/ _pull _obj_path/;
-sub init {
-    my $self = shift;
-    $self->_pull([]);
-    _obj_path $self  shift;
-    return $self->SUPER::init(@_);
-}
+use HTML::WebDAO::Component;
+use MetaStore::Item;
+our @ISA = qw( MetaStore::Item HTML::WebDAO::Component  );
+our $VERSION = '0.01';
 
-sub obj_coll {
+sub _init {
     my $self = shift;
-    return $self->call_path($self->_obj_path);
+    $self->HTML::WebDAO::Component::_sysinit(\@_);
+    return $self->SUPER::_init(@_);
 }
 
 
-sub all {
-    my $self = shift;
-    $self->_pull([ values %{ $self->obj_coll->fetch_objects({tval=>['_metastore_gallery','_metastore_entry']})} ]);
-}
-
-sub gallery {
-    my $self = shift;
-    $self->_pull([ values %{ $self->obj_coll->fetch_objects({tval=>'_metastore_gallery'})} ]);
-}
-sub blogs {
-    my $self = shift;
-    $self->_pull([ values %{ $self->obj_coll->fetch_objects({tval=>'_metastore_entry'})} ]);
-}
-
-sub fetch {
-    my $self = shift;
-    $self->blogs unless scalar @{$self->_pull};
-    return join "\n"=>map { $_->fetch }
-         
-        sort {$b->_attr->{time_publish} <=> $a->_attr->{time_publish}}
-        grep { $_->_attr->{time_publish} < time() }
-        grep { $_->_attr->{ is_public } }
-        @{$self->_pull}
-}
+# Preloaded methods go here.
 
 1;
 __END__

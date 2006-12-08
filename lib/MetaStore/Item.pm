@@ -1,30 +1,42 @@
 package MetaStore::Item;
-use Objects::Collection::Base;
-use Objects::Collection::Item;
+use MetaStore::Base;
 use Data::Dumper;
 use strict;
 use warnings;
 
-our @ISA = qw(Objects::Collection::Item);
+our @ISA = qw( MetaStore::Base );
 our $VERSION = '0.01';
-attributes qw/_id _meta_ref /;
-sub init {
+__PACKAGE__->attributes qw/ __init_rec  _attr/;
+
+sub _init {
     my $self = shift;
-    my $id  = shift;
-    _id $self $id;
-    my $meta_ref = shift;
-    _meta_ref $self  $meta_ref;
+    my $ref = shift;
+    $ref->{id} or die "Need id !".__PACKAGE__;
+    _attr $self $ref->{attr};
+    __init_rec $self $ref;
+    return $self->SUPER::_init(@_);
+}
+
+#method fo init
+sub _create {
+    my $self = shift;
+}
+sub _changed {
+   my $self = shift;
+    if ( my $ar = tied %{ $self->_attr } ) {
+        return $ar->_changed;
+    }
+    return 0;
+}
+
+sub _get_attr {
+    my $self = shift;
+    return $self->_attr;
 }
 
 sub id {
     my $self = shift;
-    return $self->_id;
-}
-
-sub meta {
-    my $self = shift;
-    $self->_meta_ref->{mdata}=$_[0] if $_[0];
-    return $self->_meta_ref->{mdata}
+    return $self->__init_rec->{id};
 }
 
 

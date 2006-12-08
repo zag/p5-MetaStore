@@ -28,7 +28,6 @@ sub before_save {
 }
 
 sub _prepare_record {
-#    my ( $self, $key, $ref ) = @_;
     my $self = shift;
     my ( $key, $ref ) = @_;
     unless (scalar keys %$ref) {

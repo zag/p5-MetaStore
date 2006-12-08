@@ -10,9 +10,6 @@ __PACKAGE__->attributes qw/_conf/;
 sub init {
     my $self = shift;
     my ( %opt ) = @_;
-    my $conf = new MetaStore::Config:: ( $opt{config} );
-    $self->_conf($conf);
-    _log1 $self "INIT CONFIG $conf  $opt{config}";
     $self->RegEvent( $self,"_sess_ended", \&commit );
     return $self->SUPER::init(@_);
 }

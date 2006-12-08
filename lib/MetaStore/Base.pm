@@ -3,9 +3,18 @@ use Data::Dumper;
 use Time::Local;
 use Template;
 use Template::Plugin::Date;
+use HTML::WebDAO::Base;
 use strict;
 use warnings;
+use base qw/HTML::WebDAO::Base/;
 our $VERSION = '0.01';
+
+sub _init {
+    my $self = shift;
+    return $self->init(@_);
+}
+
+sub init{ 1 };
 
 sub time2mysql {
     my ( $self, $time ) = @_;

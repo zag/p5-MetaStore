@@ -10,7 +10,6 @@ sub _init {
     my $file_path = shift;
     $self->__conf(new Config::Simple:: $file_path);
     $self->_path(  $file_path );
-    _log1 $self "init with $file_path !".$self->__conf;
     return 1;
 }
 
