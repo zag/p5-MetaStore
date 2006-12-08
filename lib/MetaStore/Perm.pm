@@ -1,43 +1,22 @@
 package MetaStore::Perm;
 use Data::Dumper;
-use File::Path;
 use strict;
 use warnings;
-use HTML::WebDAO::Base;
 use base qw(HTML::WebDAO::Element);
-attributes qw/ __init /;
+__PACKAGE__->attributes qw/ __init /;
+
 sub init {
     my $self = shift;
-#    my %args = map {%{$_}} @_;
-    my %arg = @_;
-    my %prefs;
-    while ( my ($key,$val) = each %arg) {
-        my ($sub_key, $ord) = split /\./,$key;
-       if ( defined $ord ) {
-            $prefs{$sub_key}->[$ord] = $val
-       } else {
-        $prefs{$key} =$val;
-       }
-    }
-    $self->__init(\%prefs);
+    my %arg  = @_;
+    $self->__init( \%arg );
 }
 
 sub __get_self_refs {
     my $self = shift;
+
     #get user
-    my %args = %{$self->__init};
-    my $uid = $self->getEngine->_session->get_id;
-    my $meta_obj = $self->call_path($args{metadb});
-    return unless $meta_obj;
-#    _log4 $self "Begin check perm !";
-    my ($user) = 
-            grep { $_->sess_id eq "$uid"}
-#            map { _log4 $self "check ".Dumper($_->_attr) ;$_}
-            values %{ $meta_obj->fetch_objects({
-                    tval=>'_metastore_user',
-                    tname=>'__class'}) };
-#    _log4 $self "Prem fail for $uid" unless $user;
-    return $user ? $args{auth} : $args{noauth};
+    my %args = %{ $self->__init };
+    return $self->getEngine->_auth->is_authed ? $args{auth} : $args{noauth};
 }
 
 # Preloaded methods go here.
