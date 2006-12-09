@@ -1,4 +1,4 @@
-package MetaStore::Perm;
+package MetaStore::IsAuthed;
 use Data::Dumper;
 use strict;
 use warnings;
