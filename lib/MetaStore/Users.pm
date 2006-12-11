@@ -1,0 +1,105 @@
+package MetaStore::Users;
+
+=head1 NAME
+
+MetaStore::Users - abstract class for collections of users.
+
+=head1 SYNOPSIS
+
+    use MetaStore::Users;
+
+=head1 DESCRIPTION
+
+A collection - sometimes called a container - is simply an object that groups multiple elements into a single unit. Collections are used to store, retrieve, manipulate, and communicate aggregate data.
+
+=head1 METHODS
+
+=cut
+
+use strict;
+use warnings;
+use Objects::Collection::AutoSQL;
+use Data::Dumper;
+use MetaStore::Auth::User;
+use MetaStore::Auth::UserGuest;
+
+our @ISA     = qw(Objects::Collection::AutoSQL );
+our $VERSION = '0.01';
+
+sub _init {
+    my $self = shift;
+    my %args = @_;
+    $args{sub_ref} = sub { $self->_create_obj(@_) };
+    $self->SUPER::_init(%args);
+}
+
+sub _create_obj {
+    my $self = shift;
+    my ( $id, $refs ) = @_;
+    return new MetaStore::Auth::User $refs;
+}
+
+sub fetch_object {
+    my $self = shift;
+    my ($obj) = values %{ $self->fetch_objects(@_) };
+    $obj;
+}
+
+=head2 get_by_log_pass
+
+get_by_log_pass
+
+=cut
+
+sub get_by_log_pass {
+    my $self = shift;
+    my %args = @_;
+    my ( $login, $passwd ) = @args{qw/ lg pw /};
+    $self->fetch_object( { login => $login, password => $passwd } );
+}
+
+=head2 get_by_sess
+
+get_by_sess
+
+=cut
+
+sub get_by_sess {
+    my $self = shift;
+    my $sess_id = shift || return undef;
+    $self->fetch_object( { sess_id => $sess_id } );
+}
+
+=head2 get_guest
+
+get_guest
+
+=cut
+
+sub get_guest {
+    my $self = shift;
+    return new MetaStore::Auth::UserGuest::;
+}
+
+1;
+__END__
+
+
+=head1 SEE ALSO
+
+MetaStore, README
+
+=head1 AUTHOR
+
+Zahatski Aliaksandr, <zag@cpan.org>
+
+=head1 COPYRIGHT AND LICENSE
+
+Copyright (C) 2005-2006 by Zahatski Aliaksandr
+
+This library is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself, either Perl version 5.8.8 or,
+at your option, any later version of Perl 5 you may have available.
+
+=cut
+
