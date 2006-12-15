@@ -35,6 +35,18 @@ sub attr {
     my $self = shift;
     return $self->_attr;
 }
+=head2 session_id
+
+session_id
+
+=cut
+
+sub session_id {
+    my $self = shift;
+    my $sess_id = shift;
+    defined $sess_id ? $self->attr->{sess_id} = $sess_id : $self->attr->{sess_id};
+}
+
 1;
 __END__
 

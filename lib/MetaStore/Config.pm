@@ -1,4 +1,22 @@
 package MetaStore::Config;
+
+=head1 NAME
+
+MetaStore::Config - Configuration file class.
+
+=head1 SYNOPSIS
+
+    use MetaStore::Config;
+    my $conf = new MetaStore::Config:: ( $opt{config} );
+
+=head1 DESCRIPTION
+
+Configuration file class 
+
+=head1 METHODS
+
+=cut
+
 use strict;
 use warnings;
 use HTML::WebDAO::Base;
@@ -32,3 +50,23 @@ sub AUTOLOAD {
       $self->__conf->param( -block => $auto_sub )
 }
 1;
+__END__
+
+=head1 SEE ALSO
+
+MetaStore, Config::Simple,README
+
+=head1 AUTHOR
+
+Zahatski Aliaksandr, E<lt>zag@cpan.orgE<gt>
+
+=head1 COPYRIGHT AND LICENSE
+
+Copyright (C) 2006 by Zahatski Aliaksandr
+
+This library is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself, either Perl version 5.8.8 or,
+at your option, any later version of Perl 5 you may have available.
+
+=cut
+

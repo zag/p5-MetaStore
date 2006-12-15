@@ -1,4 +1,26 @@
 package MetaStore::StoreDir;
+
+=head1 NAME
+
+MetaStore::StoreDir - Simple store/restore data to files in dirs.
+
+=head1 SYNOPSIS
+
+    use MetaStore::StoreDir;
+    my $fz = IO::Zlib->new($tmp_file, "rb");
+    my $dir = tempdir( CLEANUP => 0 );
+    my $temp_store = new MetaStore::StoreDir:: $dir;
+    $temp_store->putRaw("file.dat",$fz);
+    $fz->close;
+
+=head1 DESCRIPTION
+
+Simple store/restore data to files in dirs.
+
+=head1 METHODS
+
+=cut
+
 use IO::File;
 use File::Path;
 use Data::Dumper;
@@ -140,3 +162,23 @@ sub clean {
     rmtree($dir,0);
 }
 1;
+__END__
+
+=head1 SEE ALSO
+
+IO::File
+
+=head1 AUTHOR
+
+Zahatski Aliaksandr, E<lt>zag@cpan.orgE<gt>
+
+=head1 COPYRIGHT AND LICENSE
+
+Copyright (C) 2005-2006 by Zahatski Aliaksandr
+
+This library is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself, either Perl version 5.8.8 or,
+at your option, any later version of Perl 5 you may have available.
+
+=cut
+

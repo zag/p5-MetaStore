@@ -1,4 +1,23 @@
 package MetaStore::Kern;
+
+
+=head1 NAME
+
+MetaStore::Kern - Class of kernel object.
+
+=head1 SYNOPSIS
+
+    use MetaStore::Kern;
+    use base qw/ MetaStore::Kern /;
+
+=head1 DESCRIPTION
+
+Class of kernel object.
+
+=head1 METHODS
+
+=cut
+
 use HTML::WebDAO::Engine;
 use MetaStore::Config;
 use Data::Dumper;
@@ -6,6 +25,12 @@ use strict;
 use warnings;
 use base qw(HTML::WebDAO::Engine);
 __PACKAGE__->attributes qw/_conf/;
+
+=head2 init
+
+Initialize object
+
+=cut
 
 sub init {
     my $self = shift;
@@ -17,53 +42,29 @@ sub config {
     my $self = shift;
     return $self->_conf
 }
+
 sub commit {
     my $self = shift;
 }
+
 1;
 __END__
-# Below is stub documentation for your module. You'd better edit it!
-
-=head1 NAME
-
-MetaStore - Perl extension for blah blah blah
-
-=head1 SYNOPSIS
-
-  use MetaStore;
-  blah blah blah
-
-=head1 DESCRIPTION
-
-Stub documentation for MetaStore, created by h2xs. It looks like the
-author of the extension was negligent enough to leave the stub
-unedited.
-
-Blah blah blah.
-
 
 =head1 SEE ALSO
 
-Mention other useful documentation such as the documentation of
-related modules or operating system documentation (such as man pages
-in UNIX), or any relevant external documentation such as RFCs or
-standards.
-
-If you have a mailing list set up for your module, mention it here.
-
-If you have a web site set up for your module, mention it here.
+Metasore, README
 
 =head1 AUTHOR
 
-Zagatski Alexandr, E<lt>zag@zagE<gt>
+Zahatski Aliaksandr, <zag@cpan.org>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright (C) 2006 by Zagatski Alexandr
+Copyright (C) 2005-2006 by Zahatski Aliaksandr
 
 This library is free software; you can redistribute it and/or modify
-it under the same terms as Perl itself, either Perl version 5.8.7 or,
+it under the same terms as Perl itself, either Perl version 5.8.8 or,
 at your option, any later version of Perl 5 you may have available.
 
-
 =cut
+

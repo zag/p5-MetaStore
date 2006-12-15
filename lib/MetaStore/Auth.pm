@@ -1,5 +1,25 @@
 package MetaStore::Auth;
 
+
+=head1 NAME
+
+MetaStore::Auth - Auth class.
+
+=head1 SYNOPSIS
+
+    use MetaStore::Auth;
+
+    my $auth = new MetaStore::Auth:: users => $users, session => $opt{session};
+
+
+=head1 DESCRIPTION
+
+Auth class.
+
+=head1 METHODS
+
+=cut
+
 use strict;
 use warnings;
 use Data::Dumper;
@@ -18,27 +38,8 @@ sub init {
     return 1;
 }
 
-=head1 is_access
 
-
-
-sub is_access {
-    my $self     = shift;
-    my $mod_name = shift || return undef;
-    my $reg      = $self->_conf->{auth_for};
-    nnreturn 1 unless $mod_name =~ m/$reg/i;
-    my $a_id = $self->current_user->attr->{access_id};
-    my $hash = $self->_access_obj->fetch_object($a_id);
-    my $res  = exists $hash->{$mod_name};
-    _log4 $self "CHECK PERM for module $mod_name for user "
-      . $self->current_user
-      . " is $res";
-    return $res;
-}
-
-=cut
-
-=head1 auth_by_login_pass
+=head2 auth_by_login_pass
 
 =cut
 
@@ -48,11 +49,11 @@ sub auth_by_login_pass {
     my ( $login, $pass, $sess_obj ) = @args{qw/  usr pass session/};
     my $user = $self->_users->get_by_log_pass( lg => $login, pw => $pass )
       || return;
-    $user->attr->{sess_id} = $sess_obj->get_id;
+    $user->session_id ( $sess_obj->get_id );
     return $user;
 }
 
-=head1 is_authed
+=head2 is_authed
 
 =cut
 
@@ -62,14 +63,14 @@ sub is_authed {
     return not $user->isa('MetaStore::Auth::UserGuest');
 }
 
-=head1 logout
+=head2 logout
 
 =cut
 
 sub logout {
     my $self = shift;
     my $user = shift || $self->current_user || return;
-    $user->attr->{sess_id} = '';
+    $user->session_id('');
     return 1;
 }
 
@@ -80,9 +81,21 @@ sub commit {
 1;
 __END__
 
+=head1 SEE ALSO
+
+MetaStore, README
+
 =head1 AUTHOR
 
 Zahatski Aliaksandr, E<lt>zag@cpan.orgE<gt>
+
+=head1 COPYRIGHT AND LICENSE
+
+Copyright (C) 2006 by Zahatski Aliaksandr
+
+This library is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself, either Perl version 5.8.8 or,
+at your option, any later version of Perl 5 you may have available.
 
 =cut
 

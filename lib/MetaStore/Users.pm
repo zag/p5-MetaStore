@@ -10,7 +10,7 @@ MetaStore::Users - abstract class for collections of users.
 
 =head1 DESCRIPTION
 
-A collection - sometimes called a container - is simply an object that groups multiple elements into a single unit. Collections are used to store, retrieve, manipulate, and communicate aggregate data.
+MetaStore::Users - abstract class for collections of users.
 
 =head1 METHODS
 
@@ -36,7 +36,7 @@ sub _init {
 sub _create_obj {
     my $self = shift;
     my ( $id, $refs ) = @_;
-    return new MetaStore::Auth::User $refs;
+    return new MetaStore::Auth::User {id=>$id,attr=>$refs},$refs;
 }
 
 sub fetch_object {

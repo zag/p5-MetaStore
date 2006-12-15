@@ -1,4 +1,25 @@
 package  MetaStore::Cmetatags;
+
+=head1 NAME
+
+MetaStore::Cmetatags - class for collections of data, stored in database.
+
+=head1 SYNOPSIS
+
+    use MetaStore::Cmetatags;
+    my $props = new MetaStore::Cmetatags::
+      dbh   => $dbh,
+      table => 'metatags',
+      field => 'mid';
+
+=head1 DESCRIPTION
+
+Class for collections of data, stored in database.
+
+=head1 METHODS
+
+=cut
+
 use strict;
 use warnings;
 use Data::Dumper;
@@ -78,3 +99,24 @@ sub _get_ids_by_attr {
     $qrt->finish;
     return [keys %res]
 }
+1;
+__END__
+
+=head1 SEE ALSO
+
+MetaStore, Objects::Collection,README
+
+=head1 AUTHOR
+
+Zahatski Aliaksandr, E<lt>zag@cpan.orgE<gt>
+
+=head1 COPYRIGHT AND LICENSE
+
+Copyright (C) 2005-2006 by Zahatski Aliaksandr
+
+This library is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself, either Perl version 5.8.8 or,
+at your option, any later version of Perl 5 you may have available.
+
+=cut
+
