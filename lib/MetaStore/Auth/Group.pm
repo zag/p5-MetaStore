@@ -1,4 +1,4 @@
-package MetaStore::Auth::User;
+package MetaStore::Auth::Group;
 
 use strict;
 use warnings;
@@ -13,15 +13,14 @@ our $VERSION = '0.01';
 
 =head1 NAME
 
-MetaStore::Auth::User
+MetaStore::Auth::Group - abstract class for group of users
 
 =head1 SYNOPSIS
 
 
-
 =head1 DESCRIPTION
 
-MetaStore::Auth::User
+MetaStore::Auth::Group
 
 =head1 METHODS
 
@@ -30,18 +29,6 @@ MetaStore::Auth::User
 sub _init {
     my $self = shift;
     return $self->SUPER::_init(@_);
-}
-
-=head2 session_id
-
-session_id
-
-=cut
-
-sub session_id {
-    my $self = shift;
-    my $sess_id = shift;
-    defined $sess_id ? $self->attr->{sess_id} = $sess_id : $self->attr->{sess_id};
 }
 
 1;

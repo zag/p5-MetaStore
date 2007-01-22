@@ -53,6 +53,15 @@ sub _get_attr {
     return $self->_attr;
 }
 
+=head2 attr
+
+Get intem attributes
+
+=cut
+
+sub attr {
+    return $_[0]->_attr
+}
 sub id {
     my $self = shift;
     return $self->__init_rec->{id};

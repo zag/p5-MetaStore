@@ -21,6 +21,7 @@ Class of kernel object.
 use HTML::WebDAO::Engine;
 use MetaStore::Config;
 use Data::Dumper;
+use Carp;
 use strict;
 use warnings;
 use base qw(HTML::WebDAO::Engine);
@@ -41,6 +42,23 @@ sub init {
 sub config {
     my $self = shift;
     return $self->_conf
+}
+
+sub auth {
+    my $self = shift;
+    _log1 $self "method auth not bared !";
+    croak "$self doesn't define an auth method";
+}
+
+sub create_object {
+    my $self = shift;
+    return $_[0]->_createObj(@_)
+}
+sub _createObj {
+    my $self     = shift;
+    my $name_mod = $_[1];
+    return unless $self->auth->is_access($name_mod);
+    return $self->SUPER::_createObj(@_);
 }
 
 sub commit {

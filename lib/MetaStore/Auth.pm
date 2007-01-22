@@ -78,6 +78,16 @@ sub commit {
     my $self = shift;
     $self->_users->store_changed;
 }
+=head2 is_access
+
+Abstract method for check permissions
+
+=cut
+
+sub is_access {
+    return 1    
+}
+
 1;
 __END__
 
