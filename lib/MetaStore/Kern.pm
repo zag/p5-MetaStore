@@ -1,6 +1,5 @@
 package MetaStore::Kern;
 
-
 =head1 NAME
 
 MetaStore::Kern - Class of kernel object.
@@ -25,7 +24,7 @@ use Carp;
 use strict;
 use warnings;
 use base qw(HTML::WebDAO::Engine);
-__PACKAGE__->attributes qw/_conf/;
+__PACKAGE__->attributes qw/_conf __template_obj__/;
 
 =head2 init
 
@@ -35,13 +34,14 @@ Initialize object
 
 sub init {
     my $self = shift;
-    my ( %opt ) = @_;
-    $self->RegEvent( $self,"_sess_ended", sub { $self->commit} );
+    my (%opt) = @_;
+    $self->RegEvent( $self, "_sess_ended", sub { $self->commit } );
     return $self->SUPER::init(@_);
 }
+
 sub config {
     my $self = shift;
-    return $self->_conf
+    return $self->_conf;
 }
 
 sub auth {
@@ -52,13 +52,39 @@ sub auth {
 
 sub create_object {
     my $self = shift;
-    return $_[0]->_createObj(@_)
+    return $_[0]->_createObj(@_);
 }
+
 sub _createObj {
     my $self     = shift;
     my $name_mod = $_[1];
     return unless $self->auth->is_access($name_mod);
     return $self->SUPER::_createObj(@_);
+}
+
+sub parse_template {
+    my $self = shift;
+    my ( $template, $predefined ) = @_;
+    $predefined->{self}   = $self unless exists $predefined->{self};
+    $predefined->{system} = $self unless exists $predefined->{system};
+#    my $template_obj = $self->__template_obj__ || new Template
+    my $template_obj = new Template
+      INTERPOLATE => 1,
+      EVAL_PERL   => 0,
+      ABSOLUTE    => 1,
+      RELATIVE    => 1,
+      VARIABLES   => $predefined,
+      or do { $self->_log1( "TTK Error:", [$Template::ERROR] ); return };
+    $self->__template_obj__($template_obj);
+    $template_obj->context->stash->update({});
+    $template_obj->context->reset;
+    my $res;
+    $template_obj->process( $template, $predefined, \$res ) or do {
+        my $error = $template_obj->error();
+        $self->_log1( "TTK Error:" . $error . "; file: $template");
+        return;
+    };
+    return $res;
 }
 
 sub commit {

@@ -39,6 +39,7 @@ sub _create_obj {
     return new MetaStore::Auth::User {id=>$id,attr=>$refs},$refs;
 }
 
+#Deprecated !
 sub fetch_object {
     my $self = shift;
     my ($obj) = values %{ $self->fetch_objects(@_) };

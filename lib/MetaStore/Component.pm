@@ -26,21 +26,8 @@ our $VERSION = '0.01';
 sub parse_template {
     my $self = shift;
     my ( $template, $predefined ) = @_;
-    $predefined->{self} = $self unless exists $predefined->{self};
-    my $template_obj = new Template
-      INTERPOLATE => 1,
-      EVAL_PERL   => 0,
-      ABSOLUTE   =>1,
-      RELATIVE=>1,
-      VARIABLES   => $predefined,
-      or do { $self->_log1( "TTK Error:", [$Template::ERROR] ); return };
-    my $res;
-    $template_obj->process( $template, $predefined, \$res ) or do {
-        my $error = $template_obj->error();
-        $self->_log1( "TTK Error:" . $error );
-        return;
-    };
-    return $res;
+    $predefined->{self}=$self unless exists $predefined->{self};
+    return $self->getEngine->parse_template(@_);
 }
 1;
 __END__
