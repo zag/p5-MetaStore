@@ -29,22 +29,28 @@ use Objects::Collection::AutoSQL;
 our @ISA = qw(Objects::Collection::AutoSQLnotUnique);
 sub after_load {
     my $self = shift;
-    my %attr;
+    my %attr = ();
     foreach my $rec (@_) {
-        my ($name,$val) = @{$rec}{qw/ lid ldst /};
-            $attr{$name} = $val
+        my ($name,$val, $type ) = @{$rec}{qw/ lid ldst lex/};
+            $attr{$type}{$name} = $val
     }
-    return {list=>[ map { $attr{$_} } sort { $a <=> $b } keys %attr ]}
+    while ( my ($type, $list) = each %attr) {
+        $attr{$type} = [ map { $list->{$_} } sort { $a <=> $b } keys %$list ]
+    }
+    return \%attr;
 }
+
 sub before_save {
     my $self = shift;
     my $attr = shift;
     my @res;
-    my $array = $attr->{list}||[];
+    while ( my ($type, $array ) = each %$attr) {
+    $array ||= [];
     my $i;
     foreach my $rec (@$array) {
             $i++;
-            push @res,{ ldst=>$rec , lid=>$i } 
+            push @res,{ ldst=>$rec , lid=>$i, lex => $type } 
+    }
     }
     return \@res
 }
@@ -52,9 +58,6 @@ sub before_save {
 sub _prepare_record {
     my $self = shift;
     my ( $key, $ref ) = @_;
-    unless (scalar keys %$ref) {
-        $ref = {list=>[]}
-    }
     return $self->Objects::Collection::AutoSQL::_prepare_record($key,$ref);
 }
 1;

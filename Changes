@@ -1,4 +1,6 @@
 Revision history for Perl extension MetaStore.
+       -  add Metastore::Links, fix Cmetalinks;
+       -  add support additional configs passed to constructor -  new Template:: 
 0.23  2007/04/05 
        - move parse method to root object;
        - cache parser object;

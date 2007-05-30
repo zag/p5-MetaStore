@@ -40,6 +40,7 @@ sub _init {
 sub _create {
     my $self = shift;
 }
+
 sub _changed {
    my $self = shift;
     if ( my $ar = tied %{ $self->_attr } ) {
@@ -53,6 +54,28 @@ sub _get_attr {
     return $self->_attr;
 }
 
+=head2  dump 
+
+Dump object state
+
+=cut
+sub dump {
+ my $self = shift;
+ return $self->attr
+}
+
+=head2 restore (<data ref>)
+
+Restore state
+
+=cut
+sub restore {
+    my $self= shift;
+    if ( my $attr = shift ) {
+        %{ $self->attr } =  %{$attr}
+    }
+}
+
 =head2 attr
 
 Get intem attributes
@@ -62,6 +85,13 @@ Get intem attributes
 sub attr {
     return $_[0]->_attr
 }
+
+=head2 id 
+
+Get id of object
+
+=cut
+
 sub id {
     my $self = shift;
     return $self->__init_rec->{id};

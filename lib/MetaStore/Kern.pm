@@ -64,15 +64,17 @@ sub _createObj {
 
 sub parse_template {
     my $self = shift;
-    my ( $template, $predefined ) = @_;
+    my ( $template, $predefined ,$template_config) = @_;
     $predefined->{self}   = $self unless exists $predefined->{self};
     $predefined->{system} = $self unless exists $predefined->{system};
+    $template_config ||= {};
 #    my $template_obj = $self->__template_obj__ || new Template
     my $template_obj = new Template
       INTERPOLATE => 1,
       EVAL_PERL   => 0,
       ABSOLUTE    => 1,
       RELATIVE    => 1,
+      %{$template_config},
       VARIABLES   => $predefined,
       or do { $self->_log1( "TTK Error:", [$Template::ERROR] ); return };
     $self->__template_obj__($template_obj);
