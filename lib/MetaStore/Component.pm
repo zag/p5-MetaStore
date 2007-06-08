@@ -26,7 +26,7 @@ our $VERSION = '0.01';
 sub parse_template {
     my $self = shift;
     my ( $template, $predefined ) = @_;
-    $predefined->{self}=$self unless exists $predefined->{self};
+    $predefined->{self} = $self unless exists $predefined->{self};
     return $self->getEngine->parse_template(@_);
 }
 1;
