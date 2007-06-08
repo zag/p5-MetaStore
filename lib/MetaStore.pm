@@ -1,4 +1,5 @@
 package MetaStore;
+#$Id$
 
 =head1 NAME
 
