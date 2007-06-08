@@ -2,7 +2,7 @@ package MetaStore;
 
 =head1 NAME
 
-MetaStore - Set of classes for multiuser web applications.
+MetaStore - Set of classes for multiuser web applications. 
 
 =head1 SYNOPSIS
 
