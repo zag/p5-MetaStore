@@ -92,7 +92,11 @@ sub parse_template {
 sub commit {
     my $self = shift;
 }
-
+sub _destroy {
+    my $self = shift;
+    $self->_conf(undef);
+    $self->SUPER::_destroy(@_)
+}
 1;
 __END__
 
