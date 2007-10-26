@@ -1,4 +1,5 @@
 Revision history for Perl extension MetaStore.
+        - add MetaStore::Response, for format results
 0.25 2007/06/17
        -  add Metastore::Links, fix Cmetalinks;
        -  add support additional configs passed to constructor -  new Template:: ;
