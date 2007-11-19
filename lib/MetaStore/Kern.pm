@@ -50,9 +50,11 @@ sub config {
 sub response {
     my $self = shift;
     my $sess = $self->_session;
-    return new MetaStore::Response::
+    my $resp = new MetaStore::Response::
       session => $sess,
       cv      => $sess->Cgi_obj;
+    $resp->set_header( -type => 'text/html; charset=utf-8' );
+    return $resp;
 }
 
 sub auth {
