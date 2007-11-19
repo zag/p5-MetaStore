@@ -26,7 +26,7 @@ use strict;
 use warnings;
 
 our @ISA = qw(Objects::Collection);
-our $VERSION = '0.25';
+our $VERSION = '0.26';
 
 attributes qw/ props meta links _sub_ref/;
 
