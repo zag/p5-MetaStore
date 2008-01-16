@@ -57,10 +57,15 @@ sub response {
     return $resp;
 }
 
+=head1 auth
+
+Return I<Auth> object ( See MetaStore::Auth ). 
+Default return C<undef>.
+
+=cut
+
 sub auth {
-    my $self = shift;
-    _log1 $self "method auth not bared !";
-    croak "$self doesn't define an auth method";
+    return;
 }
 
 sub create_object {
@@ -71,7 +76,11 @@ sub create_object {
 sub _createObj {
     my $self     = shift;
     my $name_mod = $_[1];
-    return unless $self->auth->is_access($name_mod);
+
+    #try check mod via auth
+    if ( my $auth = $self->auth ) {
+        return unless $auth->is_access($name_mod);
+    }
     return $self->SUPER::_createObj(@_);
 }
 
