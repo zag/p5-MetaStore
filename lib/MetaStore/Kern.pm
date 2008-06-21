@@ -93,7 +93,7 @@ sub parse_template {
 
     #    my $template_obj = $self->__template_obj__ || new Template
     my $template_obj = new Template
-      INTERPOLATE => 1,
+      INTERPOLATE => 0,
       EVAL_PERL   => 0,
       ABSOLUTE    => 1,
       RELATIVE    => 1,

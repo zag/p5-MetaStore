@@ -55,7 +55,7 @@ sub _print_dep_on_context {
     my $res ;
     if ( exists $accept->{'application/javascript'} ) {
         $res = $self->json;
-        $res = objToJson($res) unless  ref($res) eq 'CODE';
+        $res = to_json($res) unless  ref($res) eq 'CODE';
     } else {
         $res = $self->html
     }

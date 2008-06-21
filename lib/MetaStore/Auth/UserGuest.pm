@@ -29,7 +29,15 @@ sub _init {
     return 1;
 }
 
+=head2 id
 
+User guest always have -1 
+
+=cut
+
+sub id {
+    return -1;
+}
 1;
 __END__
 

@@ -10,7 +10,9 @@ Module::Build->new
        'Archive::Zip'=>'1.16',
        'IO::Zlib'=>'1.04',
        'Template'=>'2.14',
-       'XML::Flow'=>'0.82'
+       'XML::Flow'=>'0.82',
+       'Config::Simple'=>0,
+       'JSON'=>2.07
 	     },
    dist_version_from=>'lib/MetaStore.pm',
    dist_author=>'Zahatski Aliaksandr zag@cpan.org',

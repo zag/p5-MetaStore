@@ -36,7 +36,7 @@ sub _init {
 sub _create_obj {
     my $self = shift;
     my ( $id, $refs ) = @_;
-    return new MetaStore::Auth::User {id=>$id,attr=>$refs},$refs;
+    return new MetaStore::Auth::User { id => $id, attr => $refs }, $refs;
 }
 
 #Deprecated !

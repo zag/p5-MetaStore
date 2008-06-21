@@ -1,4 +1,10 @@
 Revision history for Perl extension MetaStore.
+
+0.28 2008/06/21
+      - set guest user id = -1
+      - set deps : JSON=>2.07
+      - use to_json intead objToJson
+      - set to  off INTERPOLATE for TT (parse_template)
 0.27 2008/01/20
 	- remove auth depend in kernel
 0.26 2007/11/19
