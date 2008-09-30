@@ -1,5 +1,8 @@
 Revision history for Perl extension MetaStore.
 
+0.29
+     - add INCLUDE to conf file; add += and ?= 
+    	    operations to config variables
 0.28 2008/06/21
       - set guest user id = -1
       - set deps : JSON=>2.07
