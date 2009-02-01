@@ -29,7 +29,7 @@ WebDAO component for check current user.
 use Data::Dumper;
 use strict;
 use warnings;
-use base qw(HTML::WebDAO::Element);
+use base qw(WebDAO::Element);
 __PACKAGE__->attributes qw/ __init /;
 
 sub init {
@@ -52,7 +52,7 @@ __END__
 
 =head1 SEE ALSO
 
-MetaStore, HTML::WebDAO::Element, README
+MetaStore, WebDAO::Element, README
 
 =head1 AUTHOR
 

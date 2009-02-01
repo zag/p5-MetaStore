@@ -22,10 +22,10 @@ use Data::Dumper;
 use Time::Local;
 use Template;
 use Template::Plugin::Date;
-use HTML::WebDAO::Base;
+use WebDAO::Base;
 use strict;
 use warnings;
-use base qw/HTML::WebDAO::Base/;
+use base qw/WebDAO::Base/;
 our $VERSION = '0.01';
 
 sub _init {

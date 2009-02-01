@@ -1,5 +1,8 @@
 Revision history for Perl extension MetaStore.
 
+0.50
+    - switch to WebDAO 1.00 package
+
 0.29
      - add INCLUDE to conf file; add += and ?= 
     	    operations to config variables

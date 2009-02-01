@@ -26,7 +26,7 @@ use strict;
 use warnings;
 
 our @ISA = qw(Objects::Collection);
-our $VERSION = '0.29';
+our $VERSION = '0.50';
 
 attributes qw/ props meta links _sub_ref/;
 
@@ -158,7 +158,7 @@ __END__
 
 =head1 SEE ALSO
 
-HTML::WebDAO, README
+WebDAO, README
 
 =head1 AUTHOR
 

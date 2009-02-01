@@ -19,14 +19,14 @@ Class of kernel object.
 
 =cut
 
-use HTML::WebDAO::Engine;
+use WebDAO::Engine;
 use MetaStore::Config;
 use MetaStore::Response;
 use Data::Dumper;
 use Carp;
 use strict;
 use warnings;
-use base qw(HTML::WebDAO::Engine);
+use base qw(WebDAO::Engine);
 __PACKAGE__->attributes qw/_conf __template_obj__/;
 
 =head2 init

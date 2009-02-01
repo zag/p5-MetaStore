@@ -19,8 +19,8 @@ use strict;
 use warnings;
 use Data::Dumper;
 use Template;
-use HTML::WebDAO::Component;
-use base qw/ HTML::WebDAO::Component/;
+use WebDAO::Component;
+use base qw/ WebDAO::Component/;
 our $VERSION = '0.01';
 
 sub parse_template {
@@ -34,7 +34,7 @@ __END__
 
 =head1 SEE ALSO
 
-MetaStore, HTML::WebDAO::Component, README
+MetaStore, WebDAO::Component, README
 
 =head1 AUTHOR
 

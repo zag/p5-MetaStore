@@ -1,5 +1,5 @@
 #!/usr/bin/perl
-  use HTML::WebDAO;
+  use WebDAO;
   use MetaStore;
   use MetaStore::Mem;
   use MetaStore::MemnotUnique;
@@ -30,7 +30,7 @@
   my $gallery_path = $opt{d};
   mkpath($gallery_path) unless -e $gallery_path;
  pod2usage(-exitstatus => 2, -message=>'Set -d "local path to dir for operate" ') unless $gallery_path;
-my $eng=HTML::WebDAO::Engine->new("index",'',
+my $eng=WebDAO::Engine->new("index",'',
     register=>{
         'MetaStore::DAOList' => 'meta_store',
         });

@@ -3,9 +3,9 @@ package MetaStore::Response;
 #$Id$
 
 use Data::Dumper;
-use HTML::WebDAO::Response;
+use WebDAO::Response;
 use JSON;
-use base qw( HTML::WebDAO::Response );
+use base qw( WebDAO::Response );
 __PACKAGE__->attributes qw/  __json __html __xml /;
 use strict;
 

@@ -41,8 +41,8 @@ B<#%INCLUDE file.inc%> - include config ini file
 
 use strict;
 use warnings;
-use HTML::WebDAO::Base;
-use base 'HTML::WebDAO::Base';
+use WebDAO::Base;
+use base 'WebDAO::Base';
 use Text::ParseWords 'parse_line';
 use IO::File;
 our $VERSION = '0.2';

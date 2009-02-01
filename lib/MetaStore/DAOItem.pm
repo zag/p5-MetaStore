@@ -21,14 +21,14 @@ Base class.
 use Data::Dumper;
 use strict;
 use warnings;
-use HTML::WebDAO::Component;
+use WebDAO::Component;
 use MetaStore::Item;
-our @ISA = qw( MetaStore::Item HTML::WebDAO::Component  );
+our @ISA = qw( MetaStore::Item WebDAO::Component  );
 our $VERSION = '0.01';
 
 sub _init {
     my $self = shift;
-    $self->HTML::WebDAO::Component::_sysinit(\@_);
+    $self->WebDAO::Component::_sysinit(\@_);
     return $self->SUPER::_init(@_);
 }
 
