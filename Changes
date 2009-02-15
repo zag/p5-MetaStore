@@ -1,7 +1,8 @@
 Revision history for Perl extension MetaStore.
 
-0.50
+    - delete scripts dir
     - switch to WebDAO 1.00 package
+    - clean tests
 
 0.29
      - add INCLUDE to conf file; add += and ?= 
