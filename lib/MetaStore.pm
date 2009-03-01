@@ -17,15 +17,15 @@ MetaStore - Set of classes for multiuser web applications.
 
 =cut
 
-use Objects::Collection;
-use Objects::Collection::Base;
+use Collection;
+use Collection::Utl::Base;
 use Data::Dumper;
 
 use Data::UUID;
 use strict;
 use warnings;
 
-our @ISA = qw(Objects::Collection);
+our @ISA = qw(Collection);
 our $VERSION = '0.50';
 
 attributes qw/ props meta links _sub_ref/;

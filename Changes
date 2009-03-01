@@ -1,5 +1,6 @@
 Revision history for Perl extension MetaStore.
-
+    - move to Collection
+    - delete MetaStore::Mem
     - delete scripts dir
     - switch to WebDAO 1.00 package
     - clean tests

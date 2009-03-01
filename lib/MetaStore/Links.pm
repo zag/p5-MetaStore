@@ -130,7 +130,7 @@ __END__
 
 =head1 SEE ALSO
 
-MetaStore, Objects::Collection::Item, README
+MetaStore, Collection::Item, README
 
 =head1 AUTHOR
 

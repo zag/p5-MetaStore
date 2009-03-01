@@ -18,12 +18,12 @@ MetaStore::Users - abstract class for collections of users.
 
 use strict;
 use warnings;
-use Objects::Collection::AutoSQL;
+use Collection::AutoSQL;
 use Data::Dumper;
 use MetaStore::Auth::User;
 use MetaStore::Auth::UserGuest;
 
-our @ISA     = qw(Objects::Collection::AutoSQL );
+our @ISA     = qw(Collection::AutoSQL );
 our $VERSION = '0.01';
 
 sub _init {
@@ -39,13 +39,6 @@ sub _create_obj {
     return new MetaStore::Auth::User { id => $id, attr => $refs }, $refs;
 }
 
-#Deprecated !
-sub fetch_object {
-    my $self = shift;
-    my ($obj) = values %{ $self->fetch_objects(@_) };
-    $obj;
-}
-
 =head2 get_by_log_pass
 
 get_by_log_pass
@@ -56,7 +49,7 @@ sub get_by_log_pass {
     my $self = shift;
     my %args = @_;
     my ( $login, $passwd ) = @args{qw/ lg pw /};
-    $self->fetch_object( { login => $login, password => $passwd } );
+    $self->fetch_one( { login => $login, password => $passwd } );
 }
 
 =head2 get_by_sess
@@ -68,7 +61,7 @@ get_by_sess
 sub get_by_sess {
     my $self = shift;
     my $sess_id = shift || return undef;
-    $self->fetch_object( { sess_id => $sess_id } );
+    $self->fetch_one( { sess_id => $sess_id } );
 }
 
 =head2 get_guest

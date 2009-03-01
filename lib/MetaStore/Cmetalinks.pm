@@ -24,9 +24,9 @@ Class for collections of data, stored in database.
 use strict;
 use warnings;
 use Data::Dumper;
-use Objects::Collection::AutoSQLnotUnique;
-use Objects::Collection::AutoSQL;
-our @ISA = qw(Objects::Collection::AutoSQLnotUnique);
+use Collection::AutoSQLnotUnique;
+use Collection::AutoSQL;
+our @ISA = qw(Collection::AutoSQLnotUnique);
 sub after_load {
     my $self = shift;
     my %attr = ();
@@ -58,14 +58,14 @@ sub before_save {
 sub _prepare_record {
     my $self = shift;
     my ( $key, $ref ) = @_;
-    return $self->Objects::Collection::AutoSQL::_prepare_record($key,$ref);
+    return $self->Collection::AutoSQL::_prepare_record($key,$ref);
 }
 1;
 __END__
 
 =head1 SEE ALSO
 
-MetaStore, Objects::Collection::AutoSQLnotUnique,README
+MetaStore, Collection::AutoSQLnotUnique,README
 
 =head1 AUTHOR
 

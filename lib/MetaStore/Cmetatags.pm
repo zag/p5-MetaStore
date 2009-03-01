@@ -23,40 +23,44 @@ Class for collections of data, stored in database.
 use strict;
 use warnings;
 use Data::Dumper;
-use Objects::Collection::AutoSQLnotUnique;
-use Objects::Collection::AutoSQL;
-our @ISA = qw(Objects::Collection::AutoSQLnotUnique);
+use Collection::AutoSQLnotUnique;
+use Collection::AutoSQL;
+our @ISA = qw(Collection::AutoSQLnotUnique);
+
 sub after_load {
     my $self = shift;
     my %attr;
     foreach my $rec (@_) {
-        my ($name,$val) = @{$rec}{qw/tname tval/};
-        unless ( exists $attr{$name}) {
-            $attr{$name} = $val
-        } else {
-            if ( ref($attr{$name}) ) {
-                push @{$attr{$name}},$val
+        my ( $name, $val ) = @{$rec}{qw/tname tval/};
+        unless ( exists $attr{$name} ) {
+            $attr{$name} = $val;
+        }
+        else {
+            if ( ref( $attr{$name} ) ) {
+                push @{ $attr{$name} }, $val;
             }
             else {
-                $attr{$name} = [ $attr{$name} , $val]
+                $attr{$name} = [ $attr{$name}, $val ];
             }
         }
     }
-    return \%attr
+    return \%attr;
 }
+
 sub before_save {
     my $self = shift;
     my $attr = shift;
     my @res;
-    while ( my ($name,$val) = each %$attr ) {
-            push @res,map { { tname=>$name, tval=>$_ } } ref($val) ? @$val : ($val)
+    while ( my ( $name, $val ) = each %$attr ) {
+        push @res,
+          map { { tname => $name, tval => $_ } } ref($val) ? @$val : ($val);
     }
-    return \@res
+    return \@res;
 }
 
 sub _prepare_record {
     my $self = shift;
-    return $self->Objects::Collection::AutoSQL::_prepare_record(@_);
+    return $self->Collection::AutoSQL::_prepare_record(@_);
 }
 
 =head1 _get_ids_by_attr
@@ -69,18 +73,23 @@ sub _prepare_record {
 =cut
 
 sub _get_ids_by_attr {
-   my $self = shift;
-   my ($attr,%opt) = @_;
-   my $dbh        = $self->_dbh;
-   my $table_name = $self->_table_name();
-   my $where     = join " or ", map { '( tname in (' . $dbh->quote($_) . ') and tval LIKE (' . $dbh->quote( $attr->{$_} ) . ') )' } keys %$attr;
-   my $count = scalar keys %$attr;
-   my $sql = qq/ 
+    my $self = shift;
+    my ( $attr, %opt ) = @_;
+    my $dbh        = $self->_dbh;
+    my $table_name = $self->_table_name();
+    my $where      = join " or ", map {
+        '( tname in ('
+          . $dbh->quote($_)
+          . ') and tval LIKE ('
+          . $dbh->quote( $attr->{$_} ) . ') )'
+    } keys %$attr;
+    my $count = scalar keys %$attr;
+    my $sql   = qq/ 
     select mid 
     from $table_name
     where $where
     group by mid HAVING ( count(*) = $count)/;
-    if (my $orderby = $opt{orderby}) {
+    if ( my $orderby = $opt{orderby} ) {
         $sql = qq/
             select mid, tval from $table_name
             where tname  like ('$orderby') and
@@ -88,23 +97,23 @@ sub _get_ids_by_attr {
         /;
         $sql .= ' DESC' if $opt{desc};
     }
-    if (my $page = $opt{page} and my  $onpage= $opt{onpage} ) {
-        $sql .= " limit ".( ($page-1) * $onpage ).",$onpage"
+    if ( my $page = $opt{page} and my $onpage = $opt{onpage} ) {
+        $sql .= " limit " . ( ( $page - 1 ) * $onpage ) . ",$onpage";
     }
     my $qrt = $self->_query_dbh($sql);
     my %res = ();
     while ( my $rec = $qrt->fetchrow_hashref ) {
-        $res{$rec->{mid}}++
+        $res{ $rec->{mid} }++;
     }
     $qrt->finish;
-    return [keys %res]
+    return [ keys %res ];
 }
 1;
 __END__
 
 =head1 SEE ALSO
 
-MetaStore, Objects::Collection,README
+MetaStore, Collection, README
 
 =head1 AUTHOR
 
