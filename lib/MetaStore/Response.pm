@@ -68,7 +68,7 @@ sub _destroy {
     $self->{__json} = undef;
     $self->{__html} = undef;
     $self->{__xml} = undef;
-    $self->auto( [] );
+#    $self->auto( [] );
 }
 1;
 __END__
