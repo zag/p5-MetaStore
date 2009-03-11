@@ -82,8 +82,8 @@ sub _delete {
     if ( my $ref = $self->fetch(@_) ){ 
         $_->delete  for values %{ $ref };
     }
-    $self->props->delete_objects(@_) ;
-    $self->meta->delete_objects(@_) ;
+    $self->props->delete(@_) ;
+    $self->meta->delete(@_) ;
 
 }
 sub create_obj {
