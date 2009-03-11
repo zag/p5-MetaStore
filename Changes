@@ -1,4 +1,5 @@
 Revision history for Perl extension MetaStore.
+
     - fix autho method
     - move to Collection
     - delete MetaStore::Mem

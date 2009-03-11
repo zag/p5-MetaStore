@@ -50,7 +50,7 @@ sub sub_ref {
 
 sub _fetch {
     my $self = shift;
-    my $props_hash_ref = $self->props->fetch_objects(@_);
+    my $props_hash_ref = $self->props->fetch(@_);
     my @ids = keys %$props_hash_ref;
     my $meta_ref = $self->meta;
     my $links_ref = $self->links;
@@ -79,7 +79,7 @@ sub _prepare_record {
 
 sub _delete {
     my $self = shift;
-    if ( my $ref = $self->fetch_objects(@_) ){ 
+    if ( my $ref = $self->fetch(@_) ){ 
         $_->delete  for values %{ $ref };
     }
     $self->props->delete_objects(@_) ;
@@ -102,7 +102,7 @@ sub create_obj {
 sub fetch_by_guid {
     my $self = shift;
     my $guid = shift;
-    my ( $res ) = values %{ $self->fetch_objects({ 'tval'=>$guid}) };
+    my ( $res ) = values %{ $self->fetch({ 'tval'=>$guid}) };
     return $res;
 }
 
@@ -112,15 +112,14 @@ sub create_object {
     my $class = $arg{class};
     my ($meta_obj_id) = keys %{ $self->meta->create(mdata=>'') };
     $self->props->create($meta_obj_id=>{__class=>$class});
-    my $dummy = $self->fetch_object($meta_obj_id);
+    my $dummy = $self->fetch_one($meta_obj_id);
     $dummy->_attr->{guid} = $arg{guid}||$self->make_uuid;
-    return $self->fetch_object($meta_obj_id);
-#    print Dumper({$meta_obj_id=>$dummy});
-#    return $dummy;
+    return $self->fetch_one($meta_obj_id);
 }
+
 sub _fetch_all {
     my $self = shift;
-    return $self->fetch_objects( @{ $self->_fetch_all_ids })
+    return $self->fetch( @{ $self->_fetch_all_ids })
 }
 sub _fetch_all_ids {
     my $self = shift;
