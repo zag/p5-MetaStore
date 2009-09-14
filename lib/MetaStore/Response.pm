@@ -34,6 +34,11 @@ sub json : lvalue {
     $self->{__json};
 }
 
+sub raw : lvalue {
+    my $self = shift;
+    $self->{__raw};
+}
+
 sub html : lvalue {
     my $self = shift;
     $self->{__html};
@@ -68,6 +73,7 @@ sub _destroy {
     $self->{__json} = undef;
     $self->{__html} = undef;
     $self->{__xml} = undef;
+    $self->{__raw}= undef; 
 #    $self->auto( [] );
 }
 1;

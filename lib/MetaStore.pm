@@ -26,7 +26,7 @@ use strict;
 use warnings;
 
 our @ISA = qw(Collection);
-our $VERSION = '0.50';
+our $VERSION = '0.51';
 
 attributes qw/ props meta links _sub_ref/;
 
@@ -90,9 +90,7 @@ sub create_obj {
   my $self = shift;
   my ($id,$props) = @_;
   return unless my $class = $props->{__class};
-  $self->props->_query_dbh('SELECT 0');
   my $meta_ref = $self->meta->get_lazy_object($id);
-  $self->props->_query_dbh('SELECT 10');
   my $code = qq! new $class\:\: \$props,\$id,\$meta_ref; !;
   my $ret = eval $code;
   die ref($self)." die !".$@ if $@;

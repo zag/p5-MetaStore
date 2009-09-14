@@ -1,5 +1,7 @@
 Revision history for Perl extension MetaStore.
-
+0.51
+    - add raw response
+    - clean debug
 0.50
     - fix autho method
     - move to Collection
