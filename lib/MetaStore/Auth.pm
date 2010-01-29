@@ -78,6 +78,7 @@ sub commit {
     my $self = shift;
     $self->_users->store_changed;
 }
+
 =head2 is_access
 
 Abstract method for check permissions
