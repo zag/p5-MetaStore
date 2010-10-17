@@ -1,4 +1,6 @@
 Revision history for Perl extension MetaStore.
+0.52
+    - fix undefs
 0.51
     - add raw response
     - clean debug

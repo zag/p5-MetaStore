@@ -64,7 +64,8 @@ sub _print_dep_on_context {
     } else {
         $res = $self->html
     }
-    $self->print( ref($res) eq 'CODE' ? $res->() : $res );
+    #print if defined result
+    $self->print( ref($res) eq 'CODE' ? $res->() : $res ) if defined $res;
 }
 
 sub _destroy {
