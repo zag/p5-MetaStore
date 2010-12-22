@@ -34,6 +34,7 @@ sub json : lvalue {
     $self->{__json};
 }
 
+
 sub raw : lvalue {
     my $self = shift;
     $self->{__raw};

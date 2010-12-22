@@ -1,4 +1,7 @@
 Revision history for Perl extension MetaStore.
+
+0.53
+    - adopt to latest api of  WebDAO
 0.52
     - fix undefs
 0.51

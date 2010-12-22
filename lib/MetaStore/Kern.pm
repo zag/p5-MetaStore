@@ -84,6 +84,17 @@ sub _createObj {
     return $self->SUPER::_createObj(@_);
 }
 
+=head2 execute
+
+Use  execute2 api
+
+=cut
+
+sub execute {
+    my $self = shift;
+    return $self->execute2(@_);
+}
+
 sub parse_template {
     my $self = shift;
     my ( $template, $predefined, $template_config ) = @_;

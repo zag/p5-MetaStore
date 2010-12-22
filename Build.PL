@@ -5,7 +5,7 @@ Module::Build->new
    prereq => {
        'Collection'=>'0.45',
        'Data::UUID'=>'0.11',
-       'WebDAO'=>'1.00',
+       'WebDAO'=>'2.0',
        'MIME::Base64'=>'3.07',
        'Archive::Zip'=>'1.16',
        'IO::Zlib'=>'1.04',
