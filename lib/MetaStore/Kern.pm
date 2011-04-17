@@ -38,7 +38,7 @@ Initialize object
 sub init {
     my $self = shift;
     my (%opt) = @_;
-    $self->RegEvent( $self, "_sess_ended", sub { $self->commit } );
+    $self->__register_event__( $self, "_sess_ended", sub { $self->commit } );
     return $self->SUPER::init(@_);
 }
 
