@@ -44,12 +44,14 @@ sub before_save {
     my $self = shift;
     my $attr = shift;
     my @res;
+    my $field      = $self->_key_field;
+    my $key = delete $attr->{ $field };
     while ( my ($type, $array ) = each %$attr) {
     $array ||= [];
     my $i;
     foreach my $rec (@$array) {
             $i++;
-            push @res,{ ldst=>$rec , lid=>$i, lex => $type } 
+            push @res,{ ldst=>$rec , lid=>$i, lex => $type, $field=> $key } 
     }
     }
     return \@res

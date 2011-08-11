@@ -1,5 +1,7 @@
 Revision history for Perl extension MetaStore.
 
+0.55
+    - fix key field (MetaStore::Cmetalinks)
 0.54
     - fix events 
 0.53
