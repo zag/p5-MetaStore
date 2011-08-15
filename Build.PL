@@ -3,7 +3,7 @@ Module::Build->new
     ( module_name => 'MetaStore',
     license => 'perl',
    prereq => {
-       'Collection'=>'0.45',
+       'Collection'=>'0.49',
        'Data::UUID'=>'0.11',
        'WebDAO'=>'2.0',
        'MIME::Base64'=>'3.07',
