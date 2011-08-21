@@ -30,6 +30,7 @@ our @ISA = qw(Collection::AutoSQLnotUnique);
 sub after_load {
     my $self = shift;
     my %attr;
+  
     foreach my $rec (@_) {
         my ( $name, $val ) = @{$rec}{qw/tname tval/};
         unless ( exists $attr{$name} ) {
@@ -51,9 +52,11 @@ sub before_save {
     my $self = shift;
     my $attr = shift;
     my @res;
+    my $field      = $self->_key_field;
+    my $key = delete $attr->{ $field };
     while ( my ( $name, $val ) = each %$attr ) {
         push @res,
-          map { { tname => $name, tval => $_ } } ref($val) ? @$val : ($val);
+          map { { tname => $name, tval => $_, $field=>$key } } ref($val) ? @$val : ($val);
     }
     return \@res;
 }
