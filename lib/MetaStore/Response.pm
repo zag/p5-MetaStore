@@ -57,7 +57,7 @@ sub js : lvalue {
 
 sub _print_dep_on_context {
     my ( $self, $session ) = @_;
-    my $accept = $session->Cgi_env->{accept};
+    my $accept = $self->get_request->accept;
     my $res ;
     if ( exists $accept->{'application/javascript'} ) {
         $res = $self->json;
