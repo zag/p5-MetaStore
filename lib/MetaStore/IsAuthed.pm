@@ -30,7 +30,7 @@ use Data::Dumper;
 use strict;
 use warnings;
 use base qw(WebDAO::Element);
-__PACKAGE__->attributes qw/ __init /;
+__PACKAGE__->attributes( qw/ __init /);
 
 sub init {
     my $self = shift;

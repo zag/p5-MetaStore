@@ -47,7 +47,7 @@ use Text::ParseWords 'parse_line';
 use IO::File;
 our $VERSION = '0.2';
 
-__PACKAGE__->attributes qw/ __conf _path/;
+__PACKAGE__->attributes (qw/ __conf _path/);
 
 #method for convert 'file_name', \*FH, \$string, <IO::File> to hash
 

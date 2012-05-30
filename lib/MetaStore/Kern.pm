@@ -27,7 +27,7 @@ use Carp;
 use strict;
 use warnings;
 use base qw(WebDAO::Engine);
-__PACKAGE__->attributes qw/_conf __template_obj__/;
+__PACKAGE__->attributes (qw/_conf __template_obj__/);
 
 =head2 init
 

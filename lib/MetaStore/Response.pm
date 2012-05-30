@@ -6,7 +6,7 @@ use Data::Dumper;
 use WebDAO::Response;
 use JSON;
 use base qw( WebDAO::Response );
-__PACKAGE__->attributes qw/  __json __html __xml /;
+__PACKAGE__->attributes (qw/  __json __html __xml /);
 use strict;
 
 =head1 NAME

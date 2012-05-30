@@ -25,7 +25,7 @@ use warnings;
 
 our @ISA = qw( MetaStore::Base );
 our $VERSION = '0.01';
-__PACKAGE__->attributes qw/ __init_rec  _attr/;
+__PACKAGE__->attributes( qw/ __init_rec  _attr/);
 
 sub _init {
     my $self = shift;

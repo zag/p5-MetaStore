@@ -1,5 +1,7 @@
 Revision history for Perl extension MetaStore.
 
+0.57 30 May 2012
+    - fix qw()
 0.57 15.02.2012
     - use request methods
 0.56

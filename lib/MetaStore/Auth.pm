@@ -25,7 +25,7 @@ use warnings;
 use Data::Dumper;
 use base 'MetaStore::Base';
 our $VERSION = '0.01';
-__PACKAGE__->attributes qw(  current_user _users);
+__PACKAGE__->attributes( qw(  current_user _users));
 
 sub init {
     my $self = shift;
