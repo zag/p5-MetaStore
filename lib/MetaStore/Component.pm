@@ -19,22 +19,22 @@ use strict;
 use warnings;
 use Data::Dumper;
 use Template;
-use WebDAO::Component;
-use base qw/ WebDAO::Component/;
+use WebDAO;
+use base qw/ WebDAO/;
 our $VERSION = '0.01';
 
 sub parse_template {
     my $self = shift;
     my ( $template, $predefined ) = @_;
     $predefined->{self} = $self unless exists $predefined->{self};
-    return $self->getEngine->parse_template(@_);
+    return $self->_root_->parse_template(@_);
 }
 1;
 __END__
 
 =head1 SEE ALSO
 
-MetaStore, WebDAO::Component, README
+MetaStore, WebDAO, README
 
 =head1 AUTHOR
 

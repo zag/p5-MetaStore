@@ -25,7 +25,9 @@ use warnings;
 
 our @ISA = qw( MetaStore::Base );
 our $VERSION = '0.01';
-__PACKAGE__->attributes( qw/ __init_rec  _attr/);
+use WebDAO;
+__PACKAGE__->mk_attr( __init_rec=>undef, _attr=>undef);
+
 
 sub _init {
     my $self = shift;

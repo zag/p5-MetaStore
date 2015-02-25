@@ -28,6 +28,15 @@ use warnings;
 use base qw/WebDAO::Base/;
 our $VERSION = '0.01';
 
+sub new {
+    my $class = shift;
+    my $self  = {};
+    my $stat;
+    bless( $self, $class );
+    return ( $stat = $self->_init(@_) ) ? $self : $stat;
+}
+
+
 sub _init {
     my $self = shift;
     return $self->init(@_);

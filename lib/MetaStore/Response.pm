@@ -5,8 +5,11 @@ package MetaStore::Response;
 use Data::Dumper;
 use WebDAO::Response;
 use JSON;
+use WebDAO;
 use base qw( WebDAO::Response );
-__PACKAGE__->attributes (qw/  __json __html __xml /);
+#__PACKAGE__->attributes (qw/  __json __html __xml /);
+mk_attr ( __json=>undef, __html=>undef, __xml=>undef);
+
 use strict;
 
 =head1 NAME

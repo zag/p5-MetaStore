@@ -43,7 +43,7 @@ sub __get_self_refs {
 
     #get user
     my %args = %{ $self->__init };
-    return $self->getEngine->_auth->is_authed ? $args{auth} : $args{noauth};
+    return $self->_root_->_auth->is_authed ? $args{auth} : $args{noauth};
 }
 
 

@@ -47,7 +47,8 @@ use Text::ParseWords 'parse_line';
 use IO::File;
 our $VERSION = '0.2';
 
-__PACKAGE__->attributes (qw/ __conf _path/);
+__PACKAGE__->mk_attr( __conf=>undef, _path=>undef);
+
 
 #method for convert 'file_name', \*FH, \$string, <IO::File> to hash
 
@@ -167,6 +168,14 @@ sub process_includes {
     }
     close $fh;
     return $str;
+}
+
+sub new {
+    my $class = shift;
+    my $self  = {};
+    my $stat;
+    bless( $self, $class );
+    return ( $stat = $self->_init(@_) ) ? $self : $stat;
 }
 
 sub _init {
