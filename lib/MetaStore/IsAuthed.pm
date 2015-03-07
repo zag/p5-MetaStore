@@ -31,6 +31,7 @@ use strict;
 use warnings;
 use base qw(WebDAO::Element);
 __PACKAGE__->attributes( qw/ __init /);
+our $VERSION = '0.1';
 
 sub init {
     my $self = shift;

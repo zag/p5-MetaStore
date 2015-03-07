@@ -1,5 +1,4 @@
 package MetaStore;
-#$Id$
 
 =head1 NAME
 
@@ -26,7 +25,7 @@ use strict;
 use warnings;
 
 our @ISA = qw(Collection);
-our $VERSION = '0.60';
+our $VERSION = '0.61';
 
 attributes qw/ props meta links _sub_ref/;
 

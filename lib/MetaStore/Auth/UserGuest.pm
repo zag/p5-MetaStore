@@ -3,7 +3,7 @@ use strict;
 use warnings;
 use MetaStore::Auth::User;
 our @ISA = qw(MetaStore::Auth::User);
-
+our $VERSION = '0.1';
 
 =pod
 

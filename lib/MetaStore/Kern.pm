@@ -27,8 +27,8 @@ use Carp;
 use strict;
 use warnings;
 use base qw(WebDAO::Engine);
-#__PACKAGE__->attributes (qw/_conf __template_obj__/);
 __PACKAGE__->mk_attr (_conf=>undef, __template_obj__=>undef,);
+our $VERSION = '0.1';
 
 =head2 init
 

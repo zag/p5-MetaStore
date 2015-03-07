@@ -28,6 +28,8 @@ use warnings;
 use Encode;
 use Carp;
 use strict;
+our $VERSION = '0.1';
+
 my $attrs = { _dir => undef };
 ### install get/set accessors for this object.
 for my $key ( keys %$attrs ) {

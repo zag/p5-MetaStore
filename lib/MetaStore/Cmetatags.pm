@@ -26,6 +26,7 @@ use Data::Dumper;
 use Collection::AutoSQLnotUnique;
 use Collection::AutoSQL;
 our @ISA = qw(Collection::AutoSQLnotUnique);
+our $VERSION = '0.1';
 
 sub after_load {
     my $self = shift;
