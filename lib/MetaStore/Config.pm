@@ -45,7 +45,7 @@ use WebDAO::Base;
 use base 'WebDAO::Base';
 use Text::ParseWords 'parse_line';
 use IO::File;
-our $VERSION = '0.2';
+our $VERSION = '0.3';
 
 __PACKAGE__->mk_attr( __conf=>undef, _path=>undef);
 
@@ -197,7 +197,7 @@ sub get_full_path {
     my @ini_path = split( "/", $self->_path );
     pop @ini_path;
     my $path = join "/" => @ini_path, $req_path;
-    _log1 $self "File $path not exists" unless -e $path;
+    _log1 "File $path not exists" unless -e $path;
     return $path;
 }
 

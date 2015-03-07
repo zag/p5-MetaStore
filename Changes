@@ -1,6 +1,9 @@
 Revision history for Perl extension MetaStore.
 
-0.59  22 Feb 2014
+0.60  07 March 2015
+    * make tests ok
+
+0.59  22 Feb 2015
     * make tests ok
 
 0.58  30 Dec 2014
