@@ -151,7 +151,6 @@ sub get_full_path_for {
     pop @ini_path;
     my $path = join "/" => @ini_path, $req_path;
 
-    #    _log1 $self "File $path not exists" unless -e $path;
     return $path;
 }
 
@@ -197,7 +196,6 @@ sub get_full_path {
     my @ini_path = split( "/", $self->_path );
     pop @ini_path;
     my $path = join "/" => @ini_path, $req_path;
-    _log1 "File $path not exists" unless -e $path;
     return $path;
 }
 
